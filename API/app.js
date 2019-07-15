@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var app = express();
 
 //Cargar rutas
+//Se obtienen las rutas para los request de los usuarios.
+var userRoutes = require('./routes/users/user');
 
 //Cargar middlewares (método que se ejecuta antes de que se llegue a un controlador)
 
@@ -21,11 +23,7 @@ app.use(bodyParser.json());
 
 //Rutas
 //Se configuran las rutas de la api.
-
-app.get('/', (req, res) => {
-    res.status(200).send({
-        message: 'Hola Mundo!'
-    })
-});
+//El /api actua como un base para todos los request.
+app.use('/api', userRoutes);
 
 module.exports = app;

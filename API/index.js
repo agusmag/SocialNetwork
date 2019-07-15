@@ -8,7 +8,7 @@ var port = 3800;
 var mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/social_network', { useMongoClient: true })
+mongoose.connect('mongodb://localhost:27017/social_network', { useNewUrlParser: true })
     .then(() => {
         console.log("La conexión a la base de datos social_network se ha establecido correctamente");
 
