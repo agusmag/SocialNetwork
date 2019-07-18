@@ -7,13 +7,17 @@ var jwt = require('../../services/jwt');
 //Para poder paginar la consulta.
 var mongoosePaginate = require('mongoose-pagination');
 
+//Para gestionar los archivos ( file system );
+var fs = require('fs');
+var path = require('path');
+
 var User = require('../../models/user/user');
 
 function test(req, res){
     res.status(200).send({
         message: "Método de prueba de la entidad usuario."
     })
-}
+};
 
 //Método que registra un nuevo usuario.
 function saveUser( req, res ){
@@ -122,8 +126,44 @@ function updateUser( req, res ){
             user: userUpdated
         })
     })
+};
 
+//Método para subir archivos de imagen/avatar de un usuario, para subir imágenes en el post, tengo que usar el form-data.
+function uploadImage( req, res ) {
+    const userId = req.params.id;
 
+    //Los archivos que se agregan en un request, se agregan en files
+    if ( req.files ){
+        //Se guardan el nombre con extención, y la extención de la imagen para validarlo.
+        const filePath = req.files.image.path;
+        const fileName = filePath.split('/')[2];
+        const fileExtention = fileName.split('.')[1];
+
+        if ( userId != req.user.sub ){
+            removeFilesOfUploads(res, filePath, "No tenés permiso para actualizar los datos del usuario.");
+        }
+        
+        //Se podría optimizar esto con un helper.
+        if( fileExtention == 'png' || fileExtention == 'jpg' || fileExtention == 'jpeg' || fileExtention == 'gif' ){
+            //Se actualiza el usuario con la imagen.
+        }else {
+            //
+            removeFilesOfUploads(res, filePath, "La extención no es válida.");
+        }
+    } else {
+        return res.status(200).send({
+            message: "No se han subido archivos e imágenes."
+        });
+    }
+};
+
+//Método para eliminar un archivo del storage.
+function removeFilesOfUploads( res, filePath, message ){
+    fs.unlink(filePath, ( error ) => {
+        return res.status(500).send({
+            message: message
+        });
+    })
 }
 
 //Método que loguea a un usuario existente y le asigna un token.
@@ -174,7 +214,7 @@ function loginUser( req, res ){
             });
         }
     })
-}
+};
 
 //Método que obtiene los datos de un usuario solicitado por id.
 function getUser( req, res ){
@@ -198,8 +238,7 @@ function getUser( req, res ){
             user: user
         });
     })
-
-}
+};
 
 //Método para devolver un listado paginado de los usuarios registrados
 function getUsers( req, res ){
@@ -234,13 +273,13 @@ function getUsers( req, res ){
             pages: Math.ceil(total/itemPerPage)
         });
     });
-
-}
+};
 
 //Se está exportando un objeto json con los métodos del controller.
 module.exports = {
     saveUser,
     updateUser,
+    uploadImage,
     loginUser,
     getUser,
     getUsers,
