@@ -20,6 +20,7 @@ api.post('/register', UserController.saveUser);
 api.put('/update/:id', mdAuth.ensureAuth, UserController.updateUser);
 //Si el request tiene más de 1 middleware se tiene que pasar un array.
 api.post('/upload-image/:id', [ mdAuth.ensureAuth, mdUpload ], UserController.uploadImage);
+api.get('/get-image/:imageFile', UserController.getImageFile)
 api.post('/login', UserController.loginUser);
 //Para pasar parámetros por url se indica con :[valor]?[otro_valor]=[valor_valor]?[etc]
 api.get('/user/:id', mdAuth.ensureAuth, UserController.getUser);

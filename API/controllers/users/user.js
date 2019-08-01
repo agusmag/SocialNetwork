@@ -83,7 +83,7 @@ function saveUser( req, res ){
                         }
                     });
     } else {
-        req.status(200).send({
+        res.status(200).send({
             message: "Faltan datos del usuario a crear."
         });
     }
@@ -124,7 +124,7 @@ function updateUser( req, res ){
         //Si se actualizó correctamente, muestro el usuario con los nuevos datos.
         return res.status(200).send({
             user: userUpdated
-        })
+        });
     })
 };
 
@@ -137,18 +137,36 @@ function uploadImage( req, res ) {
         //Se guardan el nombre con extención, y la extención de la imagen para validarlo.
         const filePath = req.files.image.path;
         const fileName = filePath.split('/')[2];
-        const fileExtention = fileName.split('.')[1];
+        const fileExtention = fileName.split('.')[1].toLowerCase();
 
         if ( userId != req.user.sub ){
-            removeFilesOfUploads(res, filePath, "No tenés permiso para actualizar los datos del usuario.");
+            return removeFilesOfUploads(res, filePath, "No tenés permiso para actualizar los datos del usuario.");
         }
         
         //Se podría optimizar esto con un helper.
         if( fileExtention == 'png' || fileExtention == 'jpg' || fileExtention == 'jpeg' || fileExtention == 'gif' ){
             //Se actualiza el usuario con la imagen.
+            User.findByIdAndUpdate( userId, { image: fileName }, { new:true }, ( error, userUpdated ) => {
+                if ( error ){
+                    return res.status(500).send({
+                        message: "No se ha podido realizar esa operación."
+                    });
+                }
+        
+                if ( !userUpdated ){
+                    return res.status(404).send({
+                        message: "No se ha podido actualizar el usuario."
+                    });
+                }
+        
+                //Si se actualizó correctamente, muestro el usuario con los nuevos datos.
+                return res.status(200).send({
+                    user: userUpdated
+                });
+            });
         }else {
             //
-            removeFilesOfUploads(res, filePath, "La extención no es válida.");
+            return removeFilesOfUploads(res, filePath, "La extención no es válida.");
         }
     } else {
         return res.status(200).send({
@@ -164,6 +182,24 @@ function removeFilesOfUploads( res, filePath, message ){
             message: message
         });
     })
+}
+
+//Método para obtener la imágen de un usuario.
+function getImageFile( req, res ) {
+    //Parámetro que recibe por url.
+    const imageFile = req.params.imageFile;
+    const pathFile = './uploads/users/' + imageFile;
+
+    fs.exists(pathFile, ( exists ) => {
+        if ( exists ){
+            //Si existe esa ruta a ese archivo, lo devuelvo con el método propio de express.
+            return res.sendFile( path.resolve( pathFile ));
+        }else {
+            return res.status(404).send({
+                message: "La imagen no existe."
+            });
+        }
+    });
 }
 
 //Método que loguea a un usuario existente y le asigna un token.
@@ -280,6 +316,7 @@ module.exports = {
     saveUser,
     updateUser,
     uploadImage,
+    getImageFile,
     loginUser,
     getUser,
     getUsers,
