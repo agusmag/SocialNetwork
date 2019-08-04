@@ -12,6 +12,7 @@ var fs = require('fs');
 var path = require('path');
 
 var User = require('../../models/user/user');
+var Follow = require('../../models/follows/follow');
 
 function test(req, res){
     res.status(200).send({
@@ -222,7 +223,6 @@ function loginUser( req, res ){
             bcrypt.compare(password, user.password, ( error, check ) => {
                 //Si el check obtenido el verdadero, significa que concuerdan los valores.
                 if ( check ){
-
                     //Si se requiere el token, se recive un parámetro y en base a eso se llama al servicio de obtención de token.
                     if ( params.withToken ){
                         //Generar y devolver token en base al usuario encontrado en la consulta.
@@ -237,7 +237,6 @@ function loginUser( req, res ){
                             user: user
                         });
                     }
-                    
                 }else{
                     return res.status(404).send({
                         message: "El usuario no se ha podido identificar."
@@ -257,8 +256,8 @@ function getUser( req, res ){
     //Cuando llegan datos por url se usa params.
     const userId = req.params.id;
 
-    User.findById(userId, ( error, user ) => {
-        if (error){
+    User.findById(userId, ( err, user ) => {
+        if ( err ){
             return res.status(500).send({
                 message: "Error en la petición."
             });
@@ -270,10 +269,41 @@ function getUser( req, res ){
             });
         }
 
-        return res.status(200).send({
-            user: user
+        //Se verifica que el usuario que se está buscando sea un seguidor del usuario autentificado o no.
+        followAuthenticatedUser( req.user.sub, userId ).then(( value ) => {
+            user.password = undefined;
+            //Si todo va bien, devuelve objetos usuario de follow y following para saber si es seguido/seguidor/ambos o null.
+            return res.status(200).send({
+                user,
+                following: value.following,
+                follower: value.followed
+            });
         });
-    })
+    });
+};
+
+//Método asincrónico que espera a consultar si el usuario es seguido y sigue al usuario autentificado.
+async function followAuthenticatedUser( identityUserId, userId ){
+    const following = await Follow.findOne({ user: identityUserId, followed: userId }).exec()
+        .then( (following ) => {
+            return following;
+        })
+        .catch(( err ) => {
+            return handleError( err );
+        });
+
+    const followed = await Follow.findOne({ "user": userId, "followed": identityUserId }).exec()
+        .then( (follower) => {
+            return follower;
+        })
+        .catch(( err ) => {
+            return handleError( err );
+        });
+
+    return {
+        following: following,
+        followed: followed
+    };
 };
 
 //Método para devolver un listado paginado de los usuarios registrados
@@ -302,14 +332,99 @@ function getUsers( req, res ){
             });
         }
 
-        //Si o se indica el formato [clave]:[valor] nodeJs asume que es el mismo que la propiedad.
+        followUserIds( identityUserId ).then(( value ) => {
+            //Si o se indica el formato [clave]:[valor] nodeJs asume que es el mismo que la propiedad.
+            return res.status(200).send({
+                users,
+                users_following: value.following,
+                users_followers: value.followed,
+                total,
+                pages: Math.ceil(total/itemPerPage)
+            });
+        }).catch(( err ) => {
+            return handleError( err );
+        })
+
+        
+    });
+};
+
+//Método asincrónico que espera a que se ejecute la consulta de listar los id de los seguidores/seguidos del usuario autentificado.
+async function followUserIds( userId ){
+    //Se usa el select para filtrar que campos se quieren traer y cuales excluir, con el :0 se excluyen.
+    const following = await Follow.find({user: userId }).select({'_id':0, '__v':0, 'user':0}).exec()
+        .then(( follows ) => {
+            let followsClean = [];
+
+            //Se recorre el arreglo de follows para ir agregando los ids al arreglo final.
+            follows.forEach(( follow ) => {
+                followsClean.push( follow.followed );
+            });
+
+            return followsClean;
+        })
+        .catch(( err ) => {
+            return handleError( err );
+        });
+
+    const followed = await Follow.find({followed: userId }).select({'_id':0, '__v':0, 'followed':0}).exec()
+        .then(( follows ) => {
+            let followsClean = [];
+
+            follows.forEach(( follow ) => {
+                followsClean.push( follow.user );
+            });
+
+            return followsClean;
+        })
+        .catch(( err ) => {
+            return handleError( err );
+        });
+
+    return {
+        following: following,
+        followed: followed
+    }
+};
+
+//Método que retorna los contadores de seguidos/seguidores/publicaciones, etc.
+function getCounters( req, res ){
+    let userId = req.user.sub;
+
+    if ( req.params.id ){
+        userId = req.params.id; 
+    }
+
+    getFollowCount( userId ).then(( value ) => {
         return res.status(200).send({
-            users,
-            total,
-            pages: Math.ceil(total/itemPerPage)
+            value
         });
     });
 };
+
+//Método asincrónico que returna los diferentes contadores(totales) a modo de estadística de un usuario espeficado.
+async function getFollowCount( userId ){
+    const followingCounter = await Follow.count({ user: userId }).exec()
+        .then(( total) => {
+            return total;
+        })
+        .catch(( err ) => {
+            return handleError( err );
+        });
+    
+    const followedCounter = await Follow.count({ followed: userId }).exec()
+        .then(( total) => {
+            return total;
+        })
+        .catch(( err ) => {
+            return handleError( err );
+        });
+
+    return {
+        following: followingCounter,
+        followed: followedCounter
+    };
+}
 
 //Se está exportando un objeto json con los métodos del controller.
 module.exports = {
@@ -320,5 +435,6 @@ module.exports = {
     loginUser,
     getUser,
     getUsers,
+    getCounters,
     test
 }

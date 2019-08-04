@@ -25,6 +25,7 @@ api.post('/login', UserController.loginUser);
 //Para pasar parámetros por url se indica con :[valor]?[otro_valor]=[valor_valor]?[etc]
 api.get('/user/:id', mdAuth.ensureAuth, UserController.getUser);
 api.get('/users/:page?', mdAuth.ensureAuth, UserController.getUsers);
+api.get('/counters/:id?', mdAuth.ensureAuth, UserController.getCounters);
 //Para usar un middleware en un request, se le pasa como segundo parámetro en el request mismo del Router()
 //Un ejemplo seria api.get('/getInfo', mdAuth.ensureAuth, UserController.getInfo);
 api.get('/test', mdAuth.ensureAuth, UserController.test);
