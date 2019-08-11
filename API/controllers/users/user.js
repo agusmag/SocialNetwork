@@ -1,18 +1,19 @@
 'use strict'
 
 //Para cifrar la contraseña.
-var bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcrypt-nodejs');
 //Para gestionar los tokens de los usuarios.
-var jwt = require('../../services/jwt');
+const jwt = require('../../services/jwt');
 //Para poder paginar la consulta.
-var mongoosePaginate = require('mongoose-pagination');
+const mongoosePaginate = require('mongoose-pagination');
 
 //Para gestionar los archivos ( file system );
-var fs = require('fs');
-var path = require('path');
+const fs = require('fs');
+const path = require('path');
 
-var User = require('../../models/user/user');
-var Follow = require('../../models/follows/follow');
+const User = require('../../models/user/user');
+const Follow = require('../../models/follows/follow');
+const Publication = require('../../models/publications/publication');
 
 function test(req, res){
     res.status(200).send({
@@ -183,7 +184,7 @@ function removeFilesOfUploads( res, filePath, message ){
             message: message
         });
     })
-}
+};
 
 //Método para obtener la imágen de un usuario.
 function getImageFile( req, res ) {
@@ -201,7 +202,7 @@ function getImageFile( req, res ) {
             });
         }
     });
-}
+};
 
 //Método que loguea a un usuario existente y le asigna un token.
 function loginUser( req, res ){
@@ -344,8 +345,6 @@ function getUsers( req, res ){
         }).catch(( err ) => {
             return handleError( err );
         })
-
-        
     });
 };
 
@@ -404,16 +403,24 @@ function getCounters( req, res ){
 
 //Método asincrónico que returna los diferentes contadores(totales) a modo de estadística de un usuario espeficado.
 async function getFollowCount( userId ){
-    const followingCounter = await Follow.count({ user: userId }).exec()
-        .then(( total) => {
+    const followingCounter = await Follow.countDocuments({ user: userId }).exec()
+        .then(( total ) => {
             return total;
         })
         .catch(( err ) => {
             return handleError( err );
         });
     
-    const followedCounter = await Follow.count({ followed: userId }).exec()
-        .then(( total) => {
+    const followedCounter = await Follow.countDocuments({ followed: userId }).exec()
+        .then(( total ) => {
+            return total;
+        })
+        .catch(( err ) => {
+            return handleError( err );
+        });
+
+    const publications = await Publication.countDocuments({ user: userId }).exec()
+        .then(( total ) => {
             return total;
         })
         .catch(( err ) => {
@@ -422,9 +429,10 @@ async function getFollowCount( userId ){
 
     return {
         following: followingCounter,
-        followed: followedCounter
+        followed: followedCounter,
+        publications
     };
-}
+};
 
 //Se está exportando un objeto json con los métodos del controller.
 module.exports = {
@@ -437,4 +445,4 @@ module.exports = {
     getUsers,
     getCounters,
     test
-}
+};

@@ -12,6 +12,8 @@ var app = express();
 var userRoutes = require('./routes/users/user');
 //Se obtienen las rutas para los request de follows entre usuarios.
 var followRoutes = require('./routes/follow/follow');
+//Se obtienen las rutas para los request de las publicaciones de usuarios.
+var publicationRoutes = require('./routes/publication/publication');
 
 //Cargar middlewares (método que se ejecuta antes de que se llegue a un controlador)
 
@@ -28,5 +30,6 @@ app.use(bodyParser.json());
 //El /api actua como un base para todos los request.
 app.use('/api', userRoutes);
 app.use('/api', followRoutes);
+app.use('/api', publicationRoutes);
 
 module.exports = app;
