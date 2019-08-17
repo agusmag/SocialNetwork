@@ -27,8 +27,6 @@ api.get('/user/:id', mdAuth.ensureAuth, UserController.getUser);
 api.get('/users/:page?', mdAuth.ensureAuth, UserController.getUsers);
 api.get('/counters/:id?', mdAuth.ensureAuth, UserController.getCounters);
 //Para usar un middleware en un request, se le pasa como segundo parámetro en el request mismo del Router()
-//Un ejemplo seria api.get('/getInfo', mdAuth.ensureAuth, UserController.getInfo);
-api.get('/test', mdAuth.ensureAuth, UserController.test);
 
 //Se exportan las rutas ante los request para ese controller.
 module.exports = api;

@@ -1,0 +1,75 @@
+/* Generales */
+
+.h1-strong{
+    font-size: 35px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-left: 13px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+/* NAVBAR */
+
+.navigation{
+    padding: 0px !important;
+    border-radius: 0px !important;
+}
+
+.navigation .navbar{
+    background-color: rgb(103, 122, 245) !important;
+}
+
+.navigation .navbar li{
+    margin-left: 5px;
+}
+.navigation .navbar li a:hover{
+    background-color: rgb(74, 91, 202) !important;
+}
+
+.navigation .navbar *{
+    color: white !important;
+}
+
+.navigation .navbar .dropdown{
+    right: 0px !important;
+}
+
+.navigation .navbar .dropdown-menu *{
+    color: rgb(103, 122, 245) !important;
+}
+
+.navigation .navbar .dropdown-menu *:hover{
+    color: white !important;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.navigation .avatar{
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    overflow: hidden;
+    margin-top: 3px;
+    margin-right: 2px;
+}
+
+.navigation .avatar img{
+    height: auto;
+    widows: 38px;
+}
+
+/* HOME */
+
+.jumbotron{
+    margin: 20px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.jumbotron a{
+    margin-left: 25px;
+}
