@@ -7,6 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
+import { UsersComponent } from './components/users/users.component';
 
 //Se define una constante con las rutas de la aplicación, una ruta por módulo.
 const appRoutes: Routes = [
@@ -14,7 +15,9 @@ const appRoutes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'registro', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'mis-datos', component: UserEditComponent }
+    { path: 'mis-datos', component: UserEditComponent },
+    { path: 'gente', component: UsersComponent },
+    { path: '**', component: HomeComponent }
 ];
 
 //Se exporta la configuración de rutas definida.
