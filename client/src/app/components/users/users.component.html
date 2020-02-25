@@ -1,3 +1,46 @@
-<div class="col-lg-8">
-    <h1 class="h1-strong">{{title}}</h1>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="h1-strong">{{title}}</h1>
+        </div>
+    </div>
+
+    <!-- Listado de Usuarios -->
+    <div class="row justify-content-center">
+        <div class="row justify-content-left item-user">
+            <div *ngFor="let user of users" class="customUserCard">
+                <div *ngIf="user._id != identity._id" class="card m-5" style="width: 18rem;">
+                    <img class="image-user" src="{{url + 'image-user/' + user.image }}" alt="User Profile Image" *ngIf="user.image">
+                    <img class="image-user" src="assets/user.jpeg" alt="User Profile Image" *ngIf="!user.image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{user.name + ' ' + user.surname}}</h5>
+                        <p class="card-text">{{user.nick}}</p>
+                        <button class="btn btn-success mr-2" *ngIf="follows.indexOf(user._id) < 0" (click)="followUser(user._id)">
+                            <i class="fas fa-plus-circle"></i> Seguir
+                        </button>
+                        <button class="btn btn-danger" *ngIf="follows.indexOf(user._id) >= 0" (mouseenter)="mouseEnter(user._id)" (mouseleave)="mouseLeave(user._id)" [class.btn-danger]="user._id == followUserOver" (click)="unfollowUser(user._id)">
+                            <span *ngIf="user._id == followUserOver; else following">
+                                <i class="fas fa-minus-circle"></i> Dejar de seguir
+                            </span>
+                            <ng-template #following>
+                                <i class="fas fa-check-circle"></i> Siguiendo
+                            </ng-template>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paginacion -->
+    <div class="row justify-content-center">
+        <ul class="pagination">
+            <li class="btn btn-outline-info" *ngIf="page > 1">
+                <a style="text-decoration: none;" [routerLink]="['/gente', prevPage]">Anterior</a>
+            </li>
+            <li class="btn btn-outline-info" *ngIf="pages != page">
+                <a style="text-decoration: none;" [routerLink]="['/gente', nextPage]">Siguiente</a>
+            </li>
+        </ul>
+    </div>
 </div>
