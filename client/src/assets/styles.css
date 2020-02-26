@@ -1,5 +1,20 @@
 /* Generales */
 
+.customStatsComponent {
+    display: none;
+}
+
+.customStatsComponent .visible {
+    display: block;
+}
+
+body {
+    background-image: url('background');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .h1-strong {
     font-size: 35px;
     font-weight: bold;
@@ -19,15 +34,22 @@
 }
 
 .navigation .navbar {
-    background-color: rgb(103, 122, 245) !important;
+    background-color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .navigation .navbar li {
     margin-left: 5px;
 }
 
-.navigation .navbar li a:hover {
+.navigation .navbar li *,
+.navigation .navbar .navbar-brand {
+    color: black !important;
+}
+
+.navigation .navbar li a:hover,
+.navigation .navbar li a:hover * {
     background-color: rgb(74, 91, 202) !important;
+    color: white !important;
 }
 
 .navigation .navbar * {
@@ -39,10 +61,12 @@
 }
 
 .navigation .navbar .dropdown-menu * {
-    color: rgb(103, 122, 245) !important;
+    color: black !important;
 }
 
-.navigation .navbar .dropdown-menu *:hover {
+.navigation .navbar .dropdown-menu a:hover,
+.navigation .navbar .dropdown-menu a:hover * {
+    background-color: rgb(74, 91, 202) !important;
     color: white !important;
 }
 
@@ -60,14 +84,40 @@
 }
 
 .navigation .avatar img {
-    height: auto;
+    height: 40px;
+    width: 40px;
     widows: 38px;
+}
+
+
+/* CUSTOM FIXED BUTTONS */
+
+.statsCustomButton {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    color: white;
+    background-color: rgb(74, 91, 202);
+    border-color: rgb(74, 91, 202);
+    position: fixed;
+    right: 10px;
+    bottom: 60px;
+    z-index: 1000;
+}
+
+.statsCustomButton:hover {
+    cursor: pointer;
 }
 
 
 /* HOME */
 
+.customHomeContainer {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
 .jumbotron {
+    background-color: transparent !important;
     margin: 20px;
     border-radius: 20px;
     text-align: center;
@@ -78,7 +128,56 @@
 }
 
 
+/* REGISTER */
+
+.registerCustomContainer {
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 20px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.editRegisterForm label {
+    font-weight: bold;
+}
+
+
+/* LOGIN */
+
+.customLoginContainer {
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 20px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.loginCustomForm label {
+    font-weight: bold;
+}
+
+
+/* USER EDIT */
+
+.userEditCustomContainer {
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 20px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.editUserCustomForm label {
+    font-weight: bold;
+}
+
+
 /* GENTE */
+
+.customUserContainer {
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 20px;
+    border-radius: 20px;
+    text-align: center;
+}
 
 .item-user .image-user {
     overflow: hidden;

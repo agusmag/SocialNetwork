@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container customUserContainer">
     <div class="row">
         <div class="col">
             <h1 class="h1-strong">{{title}}</h1>
@@ -7,7 +7,7 @@
 
     <!-- Listado de Usuarios -->
     <div class="row justify-content-center">
-        <div class="row justify-content-left item-user">
+        <div class="row justify-content-center item-user">
             <div *ngFor="let user of users" class="customUserCard">
                 <div *ngIf="user._id != identity._id" class="card m-5" style="width: 18rem;">
                     <img class="image-user" src="{{url + 'image-user/' + user.image }}" alt="User Profile Image" *ngIf="user.image">
@@ -35,10 +35,10 @@
     <!-- Paginacion -->
     <div class="row justify-content-center">
         <ul class="pagination">
-            <li class="btn btn-outline-info" *ngIf="page > 1">
+            <li class="btn btn-light" *ngIf="page > 1">
                 <a style="text-decoration: none;" [routerLink]="['/gente', prevPage]">Anterior</a>
             </li>
-            <li class="btn btn-outline-info" *ngIf="pages != page">
+            <li class="btn btn-light" *ngIf="pages != page">
                 <a style="text-decoration: none;" [routerLink]="['/gente', nextPage]">Siguiente</a>
             </li>
         </ul>

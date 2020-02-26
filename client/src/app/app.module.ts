@@ -13,6 +13,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UsersComponent } from './components/users/users.component';
+import { StatsComponent } from './components/stats/stats.component';
 
 //Se tienen que incluir todos los componenetes en declarations, para poder usarlos en el proyecto.
 @NgModule({
@@ -22,7 +23,8 @@ import { UsersComponent } from './components/users/users.component';
     RegisterComponent,
     LoginComponent,
     UserEditComponent,
-    UsersComponent
+    UsersComponent,
+    StatsComponent
   ],
   //Aquí se cargan los diferentes módulos del proyecto, como las rutas por ejemplo.
   imports: [

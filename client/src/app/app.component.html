@@ -26,12 +26,12 @@
                 <li class="nav-item avatar">
                     <!-- Cargar imagen de usuario -->
                     <img src="{{ url + 'image-user/' + identity.image }}" *ngIf="identity && identity.image" />
+                    <img src="../assets/user.jpeg" *ngIf="!identity || !identity.image" />
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-              {{identity.name}} <span class="caret"></span>
-            </a>
-
+                        {{identity.name}} <span class="caret"></span>
+                    </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="#" class="dropdown-item">
                             <span class="fas fa-user-circle"></span> Mi perfil
@@ -58,11 +58,16 @@
                     </a>
                 </li>
             </ul>
-
-
-
         </div>
     </nav>
+
+    <div class="container text-center customStatsComponent">
+        <stats></stats>
+    </div>
+
+    <button *ngIf="identity" type="button" class="statsCustomButton">
+        Stats
+      </button>
 </div>
 
 <!-- Con este componente dependiendo de la ruta se carga el componenete correspondiente. -->

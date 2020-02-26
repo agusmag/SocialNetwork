@@ -1,3 +1,15 @@
+/* FIXED BUTTUNS */
+$('.statsCustomButton').on({
+    click: function() {
+        console.log('Hola!');
+        $('.customStatsComponent').toggle('visible');
+    }
+})
+
+
+
+/* RESPONSIVE */
+
 $(window).on({
     resize: function() {
         responsiveLoad($(this));
