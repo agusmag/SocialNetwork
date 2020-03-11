@@ -1,3 +1,68 @@
-<div style="width: 500px; height: 500px; background-color: pink;">
-    HOLA QUERIDO
+<!-- Button trigger modal -->
+<button type="button" class="btn statsCustomButton" *ngIf="identity" data-toggle="modal" data-target="#statsModal">
+    <h2><i class="fas fa-chart-bar"></i></h2>
+  </button>
+
+<!-- Modal -->
+<div class="modal fade" id="statsModal" tabindex="-1" role="dialog" aria-labelledby="statsModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="statsModalLongTitle">Mis estadísticas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="avatar">
+                    <img src="{{ url + 'image-user/' + identity.image }}" *ngIf="identity.image" />
+                    <img src="assets/user.jpeg" *ngIf="!identity.image" />
+                </div>
+                <div class="stats-head">
+                    <a href="#">
+                        {{identity.name + ' ' + identity.surname }}
+                    </a>
+                    <p class="nickname">{{identity.nick}}</p>
+                </div>
+                <hr>
+                <div class="stats-info" *ngIf="stats">
+                    <div class="row justify-content-center">
+                        <div class="col-4">
+                            <div class="row justify-content-center">
+                                <a class="badge badge-primary" href="#">
+                                    <span class="label-stats">Siguiendo </span>
+                                </a>
+                            </div>
+                            <div class="row justify-content-center mt-2">
+                                <span class="number-stats">{{ stats.value.following }}</span>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row justify-content-center">
+                                <a class="badge badge-primary" href="#">
+                                    <span class="label-stats">Seguidores </span>
+                                </a>
+                            </div>
+                            <div class="row justify-content-center mt-2">
+                                <span class="number-stats">{{ stats.value.followed }}</span>
+                            </div>
+
+                        </div>
+                        <div class="col-4">
+                            <div class="row justify-content-center">
+                                <a class="badge badge-primary" href="#">
+                                    <span class="label-stats">Publicaciones </span>
+                                </a>
+                            </div>
+                            <div class="row justify-content-center mt-2">
+                                <span class="number-stats">{{ stats.value.publications }}</span> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,0 +1,44 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn publicationsCustomButton" *ngIf="identity" data-toggle="modal" data-target="#publicationsModal">
+    <h2><i class="fas fa-pencil-alt"></i></h2>
+  </button>
+
+<!-- Modal -->
+<div class="modal fade" id="publicationsModal" tabindex="-1" role="dialog" aria-labelledby="publicationsModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="publicationsModalLongTitle">Nueva publicación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="alert alert-success m-2" *ngIf="status == 'Success'">
+                Publicación enviada correctamente!
+            </div>
+            <div class="alert alert-danger m-2" *ngIf="status == 'Error'">
+                Error al enviar la publicación!
+            </div>
+            <div class="modal-body text-center">
+                <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm)">
+                    <div class="form-group">
+                        <label for="publicationInput">Compartí que estás pensando!</label>
+                        <textarea name="text" class="form-control" id="publicationInput" #text="ngModel" [(ngModel)]="publication.text" required></textarea>
+                        <span *ngIf="!text.valid && text.touched">
+                            El texto de la publicación es obligatorio.
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="publicationFile">Adjuntá el archivo que quieras que vean!</label>
+                        <input type="file" class="form-control" id="publicationFile" placeholder="Subir imagen" />
+                    </div>
+
+                    <input type="submit" value="Enviar" class="btn btn-success" [disabled]="!newPubForm.form.valid" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

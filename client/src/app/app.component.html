@@ -10,7 +10,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a [routerLink]="['/timeline']" [routerLinkActive]="['active']" class="nav-link">
                         <span class="fas fa-th-list"></span> Timeline
                     </a>
                 </li>
@@ -60,15 +60,9 @@
             </ul>
         </div>
     </nav>
-
-    <div class="container text-center customStatsComponent">
-        <stats></stats>
-    </div>
-
-    <button *ngIf="identity" type="button" class="statsCustomButton">
-        Stats
-      </button>
 </div>
 
+<stats *ngIf="identity"></stats>
+<publications *ngIf="identity"></publications>
 <!-- Con este componente dependiendo de la ruta se carga el componenete correspondiente. -->
 <router-outlet></router-outlet>

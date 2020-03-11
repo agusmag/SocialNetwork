@@ -8,6 +8,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UsersComponent } from './components/users/users.component';
+import { TimelineComponent } from './components/timeline/timeline.component';
 
 //Se define una constante con las rutas de la aplicación, una ruta por módulo.
 const appRoutes: Routes = [
@@ -18,6 +19,7 @@ const appRoutes: Routes = [
     { path: 'mis-datos', component: UserEditComponent },
     { path: 'gente', component: UsersComponent },
     { path: 'gente/:page', component: UsersComponent },
+    { path: 'timeline', component: TimelineComponent },
     { path: '**', component: HomeComponent }
 ];
 

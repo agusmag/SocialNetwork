@@ -93,20 +93,59 @@ body {
 /* CUSTOM FIXED BUTTONS */
 
 .statsCustomButton {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
+    display: block;
+    text-align: center;
+    padding-top: 10px !important;
+    width: 60px;
+    height: 60px;
+    border-radius: 50% !important;
     color: white;
     background-color: rgb(74, 91, 202);
     border-color: rgb(74, 91, 202);
     position: fixed;
     right: 10px;
     bottom: 60px;
-    z-index: 1000;
+    z-index: 10000;
 }
 
 .statsCustomButton:hover {
     cursor: pointer;
+}
+
+
+/* STATS */
+
+.modal-body .avatar img {
+    width: 300px;
+    height: 300px;
+}
+
+.stats-head {
+    font-size: 1.4rem !important;
+}
+
+.stats-info .following-data {
+    margin-top: 10px;
+    border-bottom: 1px solid rgb(167, 187, 253);
+}
+
+
+/* PUBLICATIONS */
+
+.publicationsCustomButton {
+    display: block;
+    text-align: center;
+    padding-top: 10px !important;
+    width: 60px;
+    height: 60px;
+    border-radius: 50% !important;
+    color: black;
+    background-color: rgb(55, 212, 89);
+    border-color: rgb(55, 212, 89);
+    position: fixed;
+    right: 115px;
+    bottom: 60px;
+    z-index: 10000;
 }
 
 
@@ -182,4 +221,39 @@ body {
 .item-user .image-user {
     overflow: hidden;
     height: 250px;
+}
+
+
+/* TIMELINE */
+
+.customTimelineContainer {
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 20px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.customPublicationContainer .card {
+    background-color: rgba(0, 0, 0, 0.65) !important;
+    color: white !important;
+    border: 1.2px solid rgb(167, 187, 253);
+}
+
+.customPublicationContainer .card-body {
+    padding-top: 5px !important;
+    padding-left: 10px !important;
+}
+
+.customPublicationContainer .pub-image-user {
+    overflow: hidden;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+}
+
+.customPublicationContainer .pub-text {
+    border-top: 1px solid rgb(167, 187, 253);
+    padding-top: 20px;
 }

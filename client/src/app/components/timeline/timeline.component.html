@@ -1,0 +1,52 @@
+<div class="container customTimelineContainer">
+    <div class="row">
+        <div class="col">
+            <h1 class="h1-strong">{{title}}</h1>
+        </div>
+    </div>
+
+    <!-- Listado de Publicaciones -->
+    <div class="container pb-5 customPublicationContainer">
+        <div class="row justify-content-center mt-2" *ngFor="let publication of publications; let i = index" [attr.data-index]="i">
+            <div class="col-10">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row justify-content-left pub-title">
+                            <div class="col-2 text-left">
+                                <img class="pub-image-user" src="{{url + 'image-user/' + publication.user.image }}" alt="User Profile Image" *ngIf="publication.user.image">
+                                <img class="pub-image-user" src="assets/user.jpeg" alt="User Profile Image" *ngIf="!publication.user.image">
+                            </div>
+                            <div class="col-3 text-left">
+                                <h6>{{ publication.user.name + ' ' + publication.user.surname}}</h6>
+                            </div>
+                            <div class="col-3 text-center">
+                                <h6><a href="#">{{'@' + publication.user.nick }}</a></h6>
+                            </div>
+                            <div class="col-3 text-center">
+                                <h6>{{ publicationDates[i] }}</h6>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center pub-text">
+                            <div class="publication-text">
+                                {{ publication.text }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paginacion
+    <div class="row justify-content-center">
+        <ul class="pagination">
+            <li class="btn btn-light" *ngIf="page > 1">
+                <a style="text-decoration: none;" [routerLink]="['/gente', prevPage]">Anterior</a>
+            </li>
+            <li class="btn btn-light" *ngIf="pages != page">
+                <a style="text-decoration: none;" [routerLink]="['/gente', nextPage]">Siguiente</a>
+            </li>
+        </ul>
+    </div> -->
+</div>
