@@ -13,29 +13,30 @@
                     <div class="card-body">
 
                         <div class="row justify-content-left pub-title">
-                            <div class="col-2 text-left">
+                            <div class="col-1 text-left">
                                 <img class="pub-image-user" src="{{url + 'image-user/' + publication.user.image }}" alt="User Profile Image" *ngIf="publication.user.image">
                                 <img class="pub-image-user" src="assets/user.jpeg" alt="User Profile Image" *ngIf="!publication.user.image">
                             </div>
-                            <div class="col-3 text-left">
-                                <h6>{{ publication.user.name + ' ' + publication.user.surname}}</h6>
+                            <div class="col-6 text-left">
+                                <h6>{{ publication.user.name + ' ' + publication.user.surname}} <span style="display:inline-block; width:20px;"></span> <a href="#">{{'@' + publication.user.nick }}</a></h6>
                             </div>
-                            <div class="col-3 text-center">
-                                <h6><a href="#">{{'@' + publication.user.nick }}</a></h6>
-                            </div>
-                            <div class="col-3 text-center">
-                                <h6>{{ publicationDates[i] }}</h6>
+                            <div class="col-5 text-right">
+                                <h6 style="color: rgb(168, 168, 168) !important;">{{ (publication.create_at | amFromUnix) | amLocale:'es' | amTimeAgo }}</h6>
                             </div>
                         </div>
                         <div class="row justify-content-center pub-text">
                             <div class="publication-text">
-                                {{ publication.text }}
+                                <h6>{{ publication.text }}</h6>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <button class="btn btn-secondary mt-5" (click)="viewMore()" *ngIf="!noMore">
+            Ver más publicaciones
+        </button>
     </div>
 
     <!-- Paginacion

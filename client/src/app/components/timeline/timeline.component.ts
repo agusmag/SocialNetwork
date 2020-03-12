@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { GLOBAL } from '../../services/global';
-import * as moment from 'moment';
 
 //Modelos
 import { Publication } from '../../models/publication/publication';
@@ -9,6 +8,7 @@ import { Publication } from '../../models/publication/publication';
 // Servicios
 import { UserService } from '../../services/user/user.service';
 import { PublicationService } from '../../services/publications/publications.service';
+import { $ } from 'protractor';
 
 @Component({
     selector: 'timeline',
@@ -22,10 +22,12 @@ export class TimelineComponent implements OnInit{
     public url: string;
     public status: String;
     public page;
+    public itemPerPage;
     public total;
     public pages;
     public publications: Publication[];
     public publicationDates: String[];
+    public prevIndex;
 
     constructor(
         private _route: ActivatedRoute,
@@ -39,6 +41,7 @@ export class TimelineComponent implements OnInit{
         this.url = GLOBAL.url;
         this.page = 1;
         this.publicationDates = [];
+        this.prevIndex = 0;
     }
 
     ngOnInit(){
@@ -46,24 +49,22 @@ export class TimelineComponent implements OnInit{
         this.getPublications(this.page);
     }
 
-    getPublications(page){
+    getPublications(page, adding = false ){
         this._publicationService.getPublications(this.token, page).subscribe(
             response => {
                 if (response.publications) {
-                    this.publications = response.publications;
 
-                    this.publications.forEach( (publication, index) => {
-                        this.publicationDates[index] = moment.unix(+publication.create_at).format("DD/MM/YYYY");
-                    });
-
-                    console.log(this.publicationDates);
+                    if ( !adding ) {
+                        this.publications = response.publications;
+                    }else {
+                        var publicationsOld = this.publications;
+                        var publicationsNew = response.publications;
+                        this.publications = publicationsOld.concat(publicationsNew);
+                    }
 
                     this.total = response.total_items;
                     this.pages = response.pages;
-
-                    if (this.page > this.pages) {
-                        this._router.navigate(['/home']);
-                    }
+                    this.itemPerPage = response.itemPerPage;
 
                     this.status = 'Success';
                 } else {
@@ -78,5 +79,17 @@ export class TimelineComponent implements OnInit{
                 }
             }
         );
+    }
+
+    public noMore = false;
+
+    viewMore(){
+        if (this.publications.length == (this.total)){
+            this.noMore = true;
+        }else {
+            this.page += 1;
+        }
+
+        this.getPublications(this.page, true);
     }
 }

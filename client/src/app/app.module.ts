@@ -16,6 +16,7 @@ import { UsersComponent } from './components/users/users.component';
 import { StatsComponent } from './components/stats/stats.component';
 import { PublicationsComponent } from './components/publications/publications.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
+import { MomentModule } from 'angular2-moment';
 
 //Se tienen que incluir todos los componenetes en declarations, para poder usarlos en el proyecto.
 @NgModule({
@@ -35,7 +36,8 @@ import { TimelineComponent } from './components/timeline/timeline.component';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    routing
+    routing,
+    MomentModule
   ],
   //Aquí se pasan los servicios del  proyecto, como por ejemplo el provider de rutas.
   providers: [
